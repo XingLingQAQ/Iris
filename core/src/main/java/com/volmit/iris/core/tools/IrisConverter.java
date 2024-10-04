@@ -1,3 +1,21 @@
+/*
+ *  Iris is a World Generator for Minecraft Bukkit Servers
+ *  Copyright (c) 2024 Arcane Arts (Volmit Software)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.volmit.iris.core.tools;
 
 import com.volmit.iris.Iris;
@@ -8,22 +26,16 @@ import com.volmit.iris.util.nbt.io.NBTUtil;
 import com.volmit.iris.util.nbt.io.NamedTag;
 import com.volmit.iris.util.nbt.tag.*;
 import com.volmit.iris.util.plugin.VolmitSender;
-import com.volmit.iris.util.reflect.V;
 import com.volmit.iris.util.scheduling.J;
 import com.volmit.iris.util.scheduling.PrecisionStopwatch;
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.util.FileUtil;
-import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

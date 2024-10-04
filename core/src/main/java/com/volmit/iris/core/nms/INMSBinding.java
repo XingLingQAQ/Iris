@@ -1,6 +1,6 @@
 /*
- * Iris is a World Generator for Minecraft Bukkit Servers
- * Copyright (c) 2022 Arcane Arts (Volmit Software)
+ *  Iris is a World Generator for Minecraft Bukkit Servers
+ *  Copyright (c) 2024 Arcane Arts (Volmit Software)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,11 @@
 package com.volmit.iris.core.nms;
 
 import com.volmit.iris.core.nms.container.BiomeColor;
+import com.volmit.iris.core.nms.container.IPackRepository;
 import com.volmit.iris.core.nms.datapack.DataVersion;
 import com.volmit.iris.engine.framework.Engine;
+import com.volmit.iris.engine.object.IrisBiomeCustom;
+import com.volmit.iris.engine.object.IrisDimension;
 import com.volmit.iris.util.collection.KList;
 import com.volmit.iris.util.collection.KMap;
 import com.volmit.iris.util.mantle.Mantle;
@@ -33,13 +36,16 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Dolphin;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.structure.Structure;
 import org.bukkit.inventory.ItemStack;
 
-import java.awt.*;
+import java.io.File;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public interface INMSBinding {
     boolean hasTile(Material material);
@@ -111,7 +117,12 @@ public interface INMSBinding {
     void inject(long seed, Engine engine, World world) throws NoSuchFieldException, IllegalAccessException;
 
     Vector3d getBoundingbox(org.bukkit.entity.EntityType entity);
-    
+
+    default String getMobCategory(EntityType entityType) {
+        // todo: Update to other versions!
+        return null;
+    }
+
     Entity spawnEntity(Location location, EntityType type, CreatureSpawnEvent.SpawnReason reason);
 
     Color getBiomeColor(Location location, BiomeColor type);
@@ -120,9 +131,30 @@ public interface INMSBinding {
         return DataVersion.V1192;
     }
 
+    boolean registerDimension(String name, IrisDimension dimension);
+
+    boolean registerBiome(String dimensionId, IrisBiomeCustom biome, boolean replace);
+
+    boolean dumpRegistry(File... folders);
+
+    void injectBukkit();
+
+    default IHeadless createHeadless(Engine engine) {
+        throw new IllegalStateException("Headless mode not supported");
+    }
+
     default int getSpawnChunkCount(World world) {
         return 441;
     }
 
+    IPackRepository getPackRepository();
+
     KList<String> getStructureKeys();
+
+    default void reconnectAll() {
+        new ArrayList<>(Bukkit.getOnlinePlayers())
+                .forEach(this::reconnect);
+    }
+
+    void reconnect(Player player);
 }
